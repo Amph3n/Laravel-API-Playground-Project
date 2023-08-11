@@ -18,6 +18,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "animejs": "^3.2.1",
         "dayjs": "^1.11.9"
     }
 }

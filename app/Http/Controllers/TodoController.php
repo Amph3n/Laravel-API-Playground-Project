@@ -20,6 +20,7 @@ class TodoController extends Controller
         return Inertia::render('Todo/Index', [
 
             // We cant get the user id if we haven't specified belongsto, in model
+            // ::with does so we run two queries. When which gets all todos records, and one for todos with relationship to the current user.
             'todos' => Todo::with('user:id,name')->latest()->get(),
 
         ]);

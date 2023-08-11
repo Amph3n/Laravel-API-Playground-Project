@@ -1,17 +1,31 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
+import Todo from '@/Components/Todo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import { onMounted, ref } from 'vue';
+import anime from 'animejs';
 
 const modalOpen = ref(false);
+
+defineProps(['todos']);
 
 const form = useForm({
     todo: '',
     description: ''
 });
+
+function animate() {
+    anime({
+        targets: '#test',
+        translateX: 250
+    });
+}
+
+
+
 
 </script>
 
@@ -58,6 +72,20 @@ const form = useForm({
             </form>
         </div>
     </Modal>
+
+    <div class="max-w-2xl p-4 mx-auto shadow sm:p-6 lg:p-8">
+        <div class="w-full h-8 mb-3 border-b-2 border-zinc-400">
+            <h1 class="pt-1 pl-3 font-bold">Todos</h1>
+        </div>
+        <Todo
+        v-for="todo in todos"
+        :key="todo.id"
+        :todo="todo"
+        ></Todo>
+    </div>
+
+    <div id="test" class="w-10 h-10 bg-slate-500"></div>
+    <button @click="animate">Animate</button>
 
 </AuthenticatedLayout>
 
