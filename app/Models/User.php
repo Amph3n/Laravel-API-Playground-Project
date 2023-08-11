@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chirp::class);
     }
+
+    public function todo(): HasMany
+    {
+        return $this->HasMany(Todo::class);
+    }
 }

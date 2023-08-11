@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use Illuminate\Http\Client\Events\ResponseReceived;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
@@ -16,6 +18,9 @@ class TodoController extends Controller
     public function index(): Response
     {
         return Inertia::render('Todo/Index', [
+
+            // We cant get the user id if we haven't specified belongsto, in model
+            'todos' => Todo::with('user:id,name')->latest()->get(),
 
         ]);
     }
@@ -31,9 +36,16 @@ class TodoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'todo' => 'required|string|max:255',
+            'description' => 'string|max:255',
+        ]);
+
+        $request->user()->todo()->create($validated);
+
+        return redirect(route('todo.index'));
     }
 
     /**
