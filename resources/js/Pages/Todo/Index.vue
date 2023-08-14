@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import Todo from '@/Components/Todo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import { onMounted, ref } from 'vue';
@@ -17,15 +18,10 @@ const form = useForm({
     description: ''
 });
 
-function animate() {
-    anime({
-        targets: '#test',
-        translateX: 250
-    });
+function CancelButton(e) {
+    e.preventDefault();
+    modalOpen.value = false;
 }
-
-
-
 
 </script>
 
@@ -34,19 +30,15 @@ function animate() {
 <Head title="Todos"  />
 
 <AuthenticatedLayout>
-    <div class="flex justify-end max-w-2xl p-4 mx-auto sm:p-6 lg:p-8">
+    <div class="flex justify-between px-4 mx-auto mt-10 max-w-7xl sm:px-6 lg:px-8">
+        <h1 class="pt-1 pl-3 text-2xl font-black">Todos</h1>
+        <div></div>
         <PrimaryButton @click="modalOpen = true">New Todo</PrimaryButton>
     </div>
 
     <Modal :show="modalOpen">
-        <div class="relative w-full h-14">
-            <button @click="modalOpen = false" class="absolute w-8 h-8 bg-gray-800 rounded right-4 top-3">
-                <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
-            </button>
-        </div>
-
-        <div class="grid w-full place-items-center h-14">
-            <h1 class="text-lg">Creating new Todo</h1>
+        <div class="grid w-full mt-5 place-items-center h-14">
+            <h1 class="text-lg font-bold">Creating new Todo</h1>
         </div>
 
         <div class="w-full h-auto pb-10">
@@ -68,24 +60,20 @@ function animate() {
 
                 <div class="flex justify-end mt-4">
                     <PrimaryButton>Create</PrimaryButton>
+                    <div class="w-3"></div>
+                    <SecondaryButton @click="CancelButton">Cancel</SecondaryButton>
                 </div>
             </form>
         </div>
     </Modal>
 
-    <div class="max-w-2xl p-4 mx-auto shadow sm:p-6 lg:p-8">
-        <div class="w-full h-8 mb-3 border-b-2 border-zinc-400">
-            <h1 class="pt-1 pl-3 font-bold">Todos</h1>
-        </div>
+    <div class="px-4 pt-2 pb-5 mx-auto mt-6 shadow max-w-7xl sm:px-6 lg:px-8">
         <Todo
         v-for="todo in todos"
         :key="todo.id"
         :todo="todo"
         ></Todo>
     </div>
-
-    <div id="test" class="w-10 h-10 bg-slate-500"></div>
-    <button @click="animate">Animate</button>
 
 </AuthenticatedLayout>
 

@@ -13,6 +13,7 @@ class Todo extends Model
     protected $fillable = [
         'todo', 
         'description',
+        'done'
     ];
 
     public function user(): BelongsTo {

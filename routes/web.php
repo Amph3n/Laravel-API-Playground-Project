@@ -42,7 +42,7 @@ Route::resource('chirps', ChirpController::class)
     ->middleware(['auth']);
 
 Route::resource('todo', TodoController::class)
-    ->only(['index', 'store'])
+    ->only(['index', 'store', 'update'])
     ->middleware(['auth']);
 
 require __DIR__.'/auth.php';
