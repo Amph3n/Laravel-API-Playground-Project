@@ -6,7 +6,7 @@ use App\Models\Todo;
 use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -70,14 +70,34 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        $validated = $request->validate([
+            'todo' => 'required|string|max:255',
+            'description' => 'string|max:255',
+        ]);
+
+        $todo->update($validated);
+
+        return to_route('todo.index');
+    }
+
+    public function updateCheckmark(Request $request, Todo $todo)
+    {
+        $validated = $request->validate([
+            'done' => 'required',
+        ]);
+
+        $todo->update($validated);
+
+        return to_route('todo.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Todo $todo)
+    public function destroy(Todo $todo): RedirectResponse
     {
-        //
+        $todo->delete();
+
+        return redirect(route('todo.index'));
     }
 }

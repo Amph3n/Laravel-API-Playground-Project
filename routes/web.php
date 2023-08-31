@@ -37,12 +37,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::put('todo/checkmark/{todo}', [TodoController::class, 'updateCheckmark'])
+    ->name('checkmark')
+    ->middleware(['auth']);
+
 Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth']);
 
 Route::resource('todo', TodoController::class)
-    ->only(['index', 'store', 'update'])
+    ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth']);
+
+
 
 require __DIR__.'/auth.php';
